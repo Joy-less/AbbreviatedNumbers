@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AbbreviatedNumbers.Tests/AbbreviatedNumbers.Tests.csproj" Id="a0ae9a86-0d3d-4eed-8c3b-1bd942f4f82e" />
+  <Project Path="AbbreviatedNumbers/AbbreviatedNumbers.csproj" />
+</Solution>
