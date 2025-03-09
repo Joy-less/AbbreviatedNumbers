@@ -10,7 +10,7 @@ public static class NumberAbbreviator {
     /// <summary>
     /// Standard number abbreviations.
     /// </summary>
-    private static readonly FrozenDictionary<BigInteger, string> DefaultAbbreviations = new Dictionary<BigInteger, string> {
+    public static IReadOnlyDictionary<BigInteger, string> DefaultAbbreviations { get; set; } = new Dictionary<BigInteger, string> {
         [1_000] = "K",
         [1_000_000] = "M",
         [1_000_000_000] = "B",
