@@ -49,7 +49,11 @@ public static class NumberAbbreviator {
 
             // Check if integer division was performed
             if (AbbreviatedValue * DivisorAsTValue != Value) {
-                AbbreviatedValue = Round(AbbreviatedValue, DivisorAsTValue);
+                // Round integer division (https://stackoverflow.com/a/41078274)
+                TValue Two = TValue.One + TValue.One;
+                TValue PreQuotient = Value * Two / DivisorAsTValue;
+                TValue Offset = TValue.IsNegative(PreQuotient) ? -TValue.One : TValue.One;
+                AbbreviatedValue = (PreQuotient + Offset) / Two;
             }
 
             // Stringify abbreviated value
@@ -60,19 +64,16 @@ public static class NumberAbbreviator {
         return Value.ToString(Format, Provider);
     }
     /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
+    public static string AbbreviateNumber<TValue, TInteger>(this TValue Value, IReadOnlyDictionary<TInteger, string> Abbreviations)
+        where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
+        where TInteger : INumberBase<TInteger>
+    {
+        return AbbreviateNumber(Value, 0, Abbreviations);
+    }
+    /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
     public static string AbbreviateNumber<TValue>(this TValue Value, int DecimalPlaces = 0)
         where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
     {
         return AbbreviateNumber(Value, DecimalPlaces, DefaultAbbreviations);
-    }
-
-    private static TValue Round<TValue>(TValue Value, TValue Divisor)
-        where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
-    {
-        // Round integer division (https://stackoverflow.com/a/41078274)
-        TValue Two = TValue.One + TValue.One;
-        TValue PreQuotient = Value * Two / Divisor;
-        TValue Offset = TValue.IsNegative(PreQuotient) ? -TValue.One : TValue.One;
-        return (PreQuotient + Offset) / Two;
     }
 }
