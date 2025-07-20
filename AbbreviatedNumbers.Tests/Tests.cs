@@ -1,44 +1,44 @@
-﻿namespace AbbreviatedNumbers.Tests;
+namespace AbbreviatedNumbers.Tests;
 
 public class Tests {
     [Fact]
     public void SmallIntegerTest() {
-        Assert.Equal("1", 1.AbbreviateNumber());
-        Assert.Equal("2", 2.AbbreviateNumber());
+        1.AbbreviateNumber().ShouldBe("1");
+        2.AbbreviateNumber().ShouldBe("2");
     }
     [Fact]
     public void SmallFloatTest() {
-        Assert.Equal("1", 1.2345.AbbreviateNumber());
-        Assert.Equal("2", 1.5345.AbbreviateNumber());
+        1.2345.AbbreviateNumber().ShouldBe("1");
+        1.5345.AbbreviateNumber().ShouldBe("2");
     }
     [Fact]
     public void SmallFloatDecimalsTest() {
-        Assert.Equal("1.23", 1.2345.AbbreviateNumber(2));
-        Assert.Equal("1.53", 1.5345.AbbreviateNumber(2));
+        1.2345.AbbreviateNumber(2).ShouldBe("1.23");
+        1.5345.AbbreviateNumber(2).ShouldBe("1.53");
     }
     [Fact]
     public void LargeIntegerTest() {
-        Assert.Equal("1K", 1234.AbbreviateNumber());
-        Assert.Equal("6K", 5678.AbbreviateNumber());
+        1234.AbbreviateNumber().ShouldBe("1K");
+        5678.AbbreviateNumber().ShouldBe("6K");
     }
     [Fact]
     public void NegativeLargeIntegerDecimalsTest() {
-        Assert.Equal("-1K", (-1234).AbbreviateNumber());
-        Assert.Equal("-6K", (-5678).AbbreviateNumber());
+        (-1234).AbbreviateNumber().ShouldBe("-1K");
+        (-5678).AbbreviateNumber().ShouldBe("-6K");
     }
     [Fact]
     public void LargeFloatTest() {
-        Assert.Equal("1K", 1234.56.AbbreviateNumber());
-        Assert.Equal("6K", 5678.56.AbbreviateNumber());
+        1234.56.AbbreviateNumber().ShouldBe("1K");
+        5678.56.AbbreviateNumber().ShouldBe("6K");
     }
     [Fact]
     public void LargeFloatDecimalsTest() {
-        Assert.Equal("1.2K", 1234.56.AbbreviateNumber(1));
-        Assert.Equal("5.68K", 5678.56.AbbreviateNumber(2));
+        1234.56.AbbreviateNumber(1).ShouldBe("1.2K");
+        5678.56.AbbreviateNumber(2).ShouldBe("5.68K");
     }
     [Fact]
     public void NegativeLargeFloatDecimalsTest() {
-        Assert.Equal("-1.2K", (-1234.56).AbbreviateNumber(1));
-        Assert.Equal("-5.68K", (-5678.56).AbbreviateNumber(2));
+        (-1234.56).AbbreviateNumber(1).ShouldBe("-1.2K");
+        (-5678.56).AbbreviateNumber(2).ShouldBe("-5.68K");
     }
 }
