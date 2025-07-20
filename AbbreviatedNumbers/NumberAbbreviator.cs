@@ -64,13 +64,6 @@ public static class NumberAbbreviator {
         return Value.ToString(Format, Provider);
     }
     /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
-    public static string AbbreviateNumber<TValue, TInteger>(this TValue Value, IReadOnlyDictionary<TInteger, string> Abbreviations)
-        where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
-        where TInteger : INumberBase<TInteger>
-    {
-        return AbbreviateNumber(Value, 0, Abbreviations);
-    }
-    /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
     public static string AbbreviateNumber<TValue>(this TValue Value, int DecimalPlaces = 0)
         where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
     {
