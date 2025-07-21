@@ -21,12 +21,13 @@ public static class NumberAbbreviator {
     /// Abbreviates the number to the nearest abbreviation.<br/>
     /// For example:
     /// <code>
-    /// AbbreviateNumber(-5678) // -6K
-    /// AbbreviateNumber(1234.56, 1) // 1.2K
+    /// AbbreviateNumber(5678.0) // 6K
+    /// AbbreviateNumber(5678.0, 1) // 5.7K
+    /// AbbreviateNumber(5678.0, 1, MidpointRounding.ToZero) // 5.6K
     /// </code>
     /// </summary>
-    public static string AbbreviateNumber<TValue, TAbbreviation>(this TValue Value, int DecimalPlaces, IReadOnlyDictionary<TAbbreviation, string> Abbreviations, IFormatProvider? Provider = null)
-        where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
+    public static string AbbreviateNumber<TValue, TAbbreviation>(this TValue Value, int DecimalPlaces, MidpointRounding MidpointRounding, IReadOnlyDictionary<TAbbreviation, string> Abbreviations, IFormatProvider? Provider = null)
+        where TValue : IFloatingPoint<TValue>, IComparisonOperators<TValue, TValue, bool>
         where TAbbreviation : INumberBase<TAbbreviation>
     {
         // Create format string
@@ -47,26 +48,23 @@ public static class NumberAbbreviator {
             // Divide value by abbreviation divisor
             TValue AbbreviatedValue = Value / DivisorAsTValue;
 
-            // Check if integer division was performed
-            if (AbbreviatedValue * DivisorAsTValue != Value) {
-                // Round integer division (https://stackoverflow.com/a/41078274)
-                TValue Two = TValue.One + TValue.One;
-                TValue PreQuotient = Value * Two / DivisorAsTValue;
-                TValue Offset = TValue.IsNegative(PreQuotient) ? -TValue.One : TValue.One;
-                AbbreviatedValue = (PreQuotient + Offset) / Two;
-            }
+            // Apply rounding to abbreviated value
+            AbbreviatedValue = TValue.Round(AbbreviatedValue, DecimalPlaces, MidpointRounding);
 
             // Stringify abbreviated value
             return AbbreviatedValue.ToString(Format, Provider) + Abbreviation;
         }
 
+        // Apply rounding to small value
+        Value = TValue.Round(Value, DecimalPlaces, MidpointRounding);
+
         // Stringify small value
         return Value.ToString(Format, Provider);
     }
-    /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
-    public static string AbbreviateNumber<TValue>(this TValue Value, int DecimalPlaces = 0)
-        where TValue : INumberBase<TValue>, IComparisonOperators<TValue, TValue, bool>
+    /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, MidpointRounding, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
+    public static string AbbreviateNumber<TValue>(this TValue Value, int DecimalPlaces = 0, MidpointRounding MidpointRounding = MidpointRounding.AwayFromZero)
+        where TValue : IFloatingPoint<TValue>, IComparisonOperators<TValue, TValue, bool>
     {
-        return AbbreviateNumber(Value, DecimalPlaces, DefaultAbbreviations);
+        return AbbreviateNumber(Value, DecimalPlaces, MidpointRounding, DefaultAbbreviations);
     }
 }
