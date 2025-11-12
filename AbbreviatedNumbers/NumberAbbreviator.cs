@@ -31,7 +31,7 @@ public static class NumberAbbreviator {
         where TAbbreviation : INumberBase<TAbbreviation>
     {
         // Create format string
-        string Format = "0." + new string('#', DecimalPlaces);
+        string Format = CreateDecimalFormatString(DecimalPlaces);
         // Get positive value
         TValue AbsoluteValue = TValue.Abs(Value);
 
@@ -66,5 +66,22 @@ public static class NumberAbbreviator {
         where TValue : IFloatingPoint<TValue>, IComparisonOperators<TValue, TValue, bool>
     {
         return AbbreviateNumber(Value, DecimalPlaces, MidpointRounding, DefaultAbbreviations);
+    }
+
+    private static string CreateDecimalFormatString(int DecimalPlaces) {
+        return DecimalPlaces switch {
+            0 => "0.",
+            1 => "0.#",
+            2 => "0.##",
+            3 => "0.###",
+            4 => "0.####",
+            5 => "0.#####",
+            6 => "0.######",
+            7 => "0.#######",
+            8 => "0.########",
+            9 => "0.#########",
+            10 => "0.##########",
+            _ => "0." + new string('#', DecimalPlaces),
+        };
     }
 }
