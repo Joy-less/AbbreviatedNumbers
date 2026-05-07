@@ -62,10 +62,10 @@ public static class NumberAbbreviator {
         return Value.ToString(Format, Provider);
     }
     /// <inheritdoc cref="AbbreviateNumber{TValue, TAbbreviation}(TValue, int, MidpointRounding, IReadOnlyDictionary{TAbbreviation, string}, IFormatProvider?)"/>
-    public static string AbbreviateNumber<TValue>(this TValue Value, int DecimalPlaces = 0, MidpointRounding MidpointRounding = MidpointRounding.AwayFromZero)
+    public static string AbbreviateNumber<TValue>(this TValue Value, int DecimalPlaces = 0, MidpointRounding MidpointRounding = MidpointRounding.AwayFromZero, IFormatProvider? Provider = null)
         where TValue : IFloatingPoint<TValue>, IComparisonOperators<TValue, TValue, bool>
     {
-        return AbbreviateNumber(Value, DecimalPlaces, MidpointRounding, DefaultAbbreviations);
+        return AbbreviateNumber(Value, DecimalPlaces, MidpointRounding, DefaultAbbreviations, Provider);
     }
 
     private static string CreateDecimalFormatString(int DecimalPlaces) {
