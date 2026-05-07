@@ -21,9 +21,9 @@ public static class NumberAbbreviator {
     /// Abbreviates the number to the nearest abbreviation.<br/>
     /// For example:
     /// <code>
-    /// AbbreviateNumber(5678.0) // 6K
-    /// AbbreviateNumber(5678.0, 1) // 5.7K
-    /// AbbreviateNumber(5678.0, 1, MidpointRounding.ToZero) // 5.6K
+    /// AbbreviateNumber(5678.0); // 6K
+    /// AbbreviateNumber(5678.0, 1); // 5.7K
+    /// AbbreviateNumber(5678.0, 1, MidpointRounding.ToZero); // 5.6K
     /// </code>
     /// </summary>
     public static string AbbreviateNumber<TValue, TAbbreviation>(this TValue Value, int DecimalPlaces, MidpointRounding MidpointRounding, IReadOnlyDictionary<TAbbreviation, string> Abbreviations, IFormatProvider? Provider = null)
