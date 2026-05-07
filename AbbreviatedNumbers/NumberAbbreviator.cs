@@ -8,7 +8,30 @@ namespace AbbreviatedNumbers;
 /// </summary>
 public static class NumberAbbreviator {
     /// <summary>
-    /// Standard number abbreviations.
+    /// Standard number abbreviations, used by default.<br/>
+    /// By default, contains:<br/>
+    /// <list type="table">
+    ///     <listheader>
+    ///         <term>Abbreviation</term>
+    ///         <term>Value</term>
+    ///     </listheader>
+    ///     <item>
+    ///         <term>K</term>
+    ///         <term>1,000</term>
+    ///     </item>
+    ///     <item>
+    ///         <term>M</term>
+    ///         <term>1,000,000</term>
+    ///     </item>
+    ///     <item>
+    ///         <term>B</term>
+    ///         <term>1,000,000,000</term>
+    ///     </item>
+    ///     <item>
+    ///         <term>T</term>
+    ///         <term>1,000,000,000,000</term>
+    ///     </item>
+    /// </list>
     /// </summary>
     public static IReadOnlyDictionary<BigInteger, string> DefaultAbbreviations { get; set; } = new Dictionary<BigInteger, string> {
         [1_000] = "K",
